@@ -962,6 +962,7 @@ function showRoomsPopup() {
             capacity: capacity
         };
 
+
         window.rooms.push(room);
         modal.style.display = 'none';
         writeInStorage('rooms', rooms);
