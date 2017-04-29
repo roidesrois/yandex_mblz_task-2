@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Задание 1: Мобилизация.Расписание лекций</title>
+    <title>Задание 2: Мобилизация. API для работы с расписанием лекций</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     
     <!-- build:css css/lib.min.css -->
@@ -37,12 +37,7 @@
                     <label for="school">Школа</label>
 
                     <div class="field__select-box">
-                        <select id="school">
-                            <option value="all">Все школы</option>
-                            <option value="interface">Разработки интерфейсов</option>
-                            <option value="mobile">Мобильной разработки</option>
-                            <option value="design">Мобильного дизайна</option>
-                        </select>
+                        <select id="school"></select>
                     </div>
                 </div>
 
@@ -173,9 +168,9 @@
                     <div class="lecture-add__content modal__content column">
                         <a class="modal__close"><i class="lecturer-popup__close"></i></a>
 
-                        <h2 class="lecture-add__header">Добавить лекцию</h2>
+                        <h2 class="form__header">Добавить лекцию</h2>
                         <form class="lecture-form form column">
-                            <label for="lecture-add__title" class="label--h4 label--h">Название лекции *:</label>
+                            <label for="lecture-add__title" class="label--h4 label--h">Название *:</label>
                             <div class="column">
                                 <input id="lecture-add__title" class="form-item__input lecture-add__title" value="{{ name }}" type="text"
                                        required placeholder="Название лекции"/>
@@ -191,7 +186,7 @@
                                         <span class="field__icon field__icon_clear field__icon_hidden"></span>
                                     </div>
                                     <div class="column">
-                                        <label for="lecture-add__time-start-hours" class="label--h5 label--h">Время начала *</label>
+                                        <label for="lecture-add__time-start-hours" class="label--h5 label--h">Начало *</label>
                                         <div class="row">
                                             <div class="column">
                                                 <input id="lecture-add__time-start-hours"
@@ -207,7 +202,7 @@
                                         </div>
                                     </div>
                                     <div class="column">
-                                        <label for="lecture-add__time-end-hours" class="label--h5 label--h">Время окончания *</label>
+                                        <label for="lecture-add__time-end-hours" class="label--h5 label--h">Окончание *</label>
                                         <div class="row">
                                             <div class="column">
                                                 <input id="lecture-add__time-end-hours"
@@ -230,28 +225,30 @@
                             <div class="lecture-add__schools-wrapper column">
                                 <select id="lecture-add__schools" class="form-item__input lecture-add__schools" multiple
                                         required>
-                                    <option value="interface">Разработки интерфейсов</option>
-                                    <option value="mobile">Мобильной разработки</option>
-                                    <option value="design">Мобильного дизайна</option>
                                 </select>
                                 <p class="lecture-add__error error"></p>
                             </div>
+                            <div class="row lecturers-and-rooms">
+                                <div class="column">
+                                    <label for="lecture-add__lecturers" class="label--h4 label--h">Лектор *:</label>
+                                    <div class="lecture-add__lecturers-wrapper column">
+                                        <select id="lecture-add__lecturers" class="form-item__input lecture-add__lecturers"
+                                                required></select>
+                                        <p class="lecture-add__error error"></p>
+                                    </div>
+                                </div>
 
-                            <label for="lecture-add__lecturers" class="label--h4 label--h">Лектор *:</label>
-                            <div class="lecture-add__lecturers-wrapper column">
-                                <select id="lecture-add__lecturers" class="form-item__input lecture-add__lecturers"
-                                        required></select>
-                                <p class="lecture-add__error error"></p>
+                                <div class="column">
+                                    <label for="lecture-add__rooms" class="label--h4 label--h">Аудитория *:</label>
+                                    <div class="lecture-add__rooms-wrapper column">
+                                        <select id="lecture-add__rooms" class="form-item__input lecture-add__rooms"
+                                                required></select>
+                                        <p class="lecture-add__error error"></p>
+                                    </div>
+                                </div>
                             </div>
-                            <label for="lecture-add__rooms" class="label--h4 label--h">Аудитория *:</label>
-                            <div class="lecture-add__rooms-wrapper column">
-                                <select id="lecture-add__rooms" class="form-item__input lecture-add__rooms"
-                                        required></select>
-                                <p class="lecture-add__error error"></p>
-                            </div>
-
                             <div class="buttons row">
-                                <a class="lecture-form__cancel link button "
+                                <a class="form__cancel link button "
                                    title="Отмена">Отмена</a>
                                 <input class="link submit button" type="submit"
                                        value="Сохранить">
@@ -261,6 +258,108 @@
                 </div>
             </section>
     </template>
+
+
+    <template id="schools-popup-layout">
+            <section class="modal-schools modal modal-close">
+                <div class="modal-list modal__wrapper">
+                    <div class="modal__content column">
+                        <a class="modal__close"><i class="close-icon link"></i></a>
+
+                        <div class="form__header row">
+                            <h2>Редактирование данных о школах</h2>
+                        </div>
+
+                        <form class="schools__add-and-edit">
+
+                            <div class="column">
+                                <label for="schoolFormActionSelect">Выберите действие</label>
+                                <select class="form-item__input" id="schoolFormActionSelect">
+                                    <option value="">Не выбрано</option>
+                                    <option value="add">Добавить новую школу</option>
+                                    <option value="change">Изменить школу</option>
+                                    <option value="delete">Удалить школу</option>
+                                </select>
+                            </div>
+                            <div class="column">
+                                <label for="schoolFormSchoolSelect">Выберите школу</label>
+                                <select class="form-item__input" disabled id="schoolFormSchoolSelect">
+                                </select>
+                            </div>
+
+                            <div class="column">
+                                <label class="control-label" for="schoolName">Название школы</label>
+                                <input type="text" class="form-item__input" disabled id="schoolName" placeholder="Введите название школы">
+                            </div>
+
+                            <div class="column">
+                                <label class="control-label" for="countOfStudents">Количество студентов</label>
+                                <input type="number" class="form-item__input" disabled id="countOfStudents" placeholder="Введите целое число от 1 до 100">
+                            </div>
+
+                            <div class="buttons row">
+                                <a class="form__cancel link button" title="Отмена">Отмена</a>
+                                <input class="link submit button" type="submit" value="Сохранить">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+    </template>
+
+
+    <template id="rooms-popup-layout">
+            <section class="modal-schools modal modal-close">
+                <div class="modal-list modal__wrapper">
+                    <div class="modal__content column">
+                        <a class="modal__close"><i class="close-icon link"></i></a>
+
+                        <div class="form__header row">
+                            <h2>Редактирование данных о аудиториях</h2>
+                        </div>
+
+                        <form class="rooms__add-and-edit">
+
+                            <div class="column">
+                                <label for="roomFormActionSelect">Выберите действие</label>
+                                <select class="form-item__input" id="roomFormActionSelect">
+                                    <option value="">Не выбрано</option>
+                                    <option value="add">Добавить новую аудиторию</option>
+                                    <option value="change">Изменить аудиторию</option>
+                                    <option value="delete">Удалить аудиторию</option>
+                                </select>
+                            </div>
+
+                            <div class="column">
+                                <label class="control-label" for="roomName">Название аудитории</label>
+                                <input type="text" class="form-item__input" disabled id="roomName" placeholder="Введите название аудитории">
+                            </div>
+
+                            <div class="column">
+                                <label for="roomFormSelect">Выберите аудиторию</label>
+                                <select class="form-item__input" disabled id="roomFormSelect"></select>
+                            </div>
+
+                            <div class="column">
+                                <label class="control-label" for="capacityOfRoom">Вместимость аудитории</label>
+                                <input type="number" class="form-item__input" disabled id="capacityOfRoom" placeholder="Введите целое число">
+                            </div>
+
+                            <div class="column">
+                                <label class="control-label" for="descriptionOfRoom">Описание аудитории</label>
+                                <textarea rows="6" class="form-item__input" disabled id="descriptionOfRoom" placeholder="Введите описание аудитории"></textarea>
+                            </div>
+
+                            <div class="buttons row">
+                                <a class="form__cancel link button" title="Отмена">Отмена</a>
+                                <input class="link submit button" type="submit" value="Сохранить">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+    </template>
+
 
     <!-- build:js js/lib.min.js -->
     <script src="lib/mustache/mustache.min.js"></script>

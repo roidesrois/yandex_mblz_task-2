@@ -1,19 +1,28 @@
 (function () {
 
+
+var i18n = {
+    previousMonth: 'Предыдущий',
+    nextMonth: 'Следующий',
+    months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+    weekdays: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
+    weekdaysShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+};
+
 // постоянные данные лекций, аудиторий, школ и лекторов
 var schools = [
     {
-        id: 'interface',
+        id: 0,
         name: 'ШРИ',
         students: 38
     },
     {
-        id: 'mobile',
+        id: 1,
         name: 'ШМР',
         students: 24
     },
     {
-        id: 'design',
+        id: 2,
         name: 'ШМД',
         students: 46
     }
@@ -69,7 +78,7 @@ var lectures = [
     {
         id:0,
         name: "Java Blitz",
-        schools: ["mobile"],
+        schools: [1],
         lecturers: ["eduardm"],
         room: [2],
         datetime: "2017-03-16",
@@ -82,7 +91,7 @@ var lectures = [
         id:1,
         name: "Клиентская оптимизация: базовые знания и лучшие практики",
         lecturers: ["andrym"],
-        schools: ["interface"],
+        schools: [0],
         room: [3],
         datetime: "2017-03-18",
         start: "18:00",
@@ -93,7 +102,7 @@ var lectures = [
     {
         id:2,
         name: "Идея, исследование, концепт",
-        schools: ["design"],
+        schools: [2],
         lecturers: ["antont"],
         room: [0],
         datetime: "2017-03-19",
@@ -105,7 +114,7 @@ var lectures = [
     {
         id:3,
         name: "Инструмент под задачи",
-        schools: ["design"],
+        schools: [2],
         lecturers: ["sergeyt"],
         room: [4],
         datetime: "2017-03-20",
@@ -117,7 +126,7 @@ var lectures = [
     {
         id:4,
         name: "Продукт и платформа",
-        schools: ["design"],
+        schools: [2],
         lecturers: ["sergeyk"],
         room: [0],
         datetime: "2017-03-27",
@@ -129,7 +138,7 @@ var lectures = [
     {
         id:5,
         name: "Особенности проектирования мобильных интерфейсов",
-        schools: ["design"],
+        schools: [2],
         lecturers: ["nikolaiv"],
         room: [3],
         datetime: "2017-03-25",
@@ -142,7 +151,7 @@ var lectures = [
         id:6,
         name: "Клиентская оптимизация: мобильные устройства и инструменты",
         lecturers: ["ivank"],
-        schools: ["interface"],
+        schools: [0],
         room: [0],
         datetime: "2017-04-01",
         start: "20:00",
@@ -152,7 +161,7 @@ var lectures = [
     {
         id:7,
         name: "ViewGroup",
-        schools: ["mobile"],
+        schools: [1],
         lecturers: ["alexsh"],
         room: [5],
         datetime: "2017-04-02",
@@ -164,7 +173,7 @@ var lectures = [
     {
         id:8,
         name: "Природа операционных систем",
-        schools: ["design", "mobile"],
+        schools: [2, 1],
         lecturers: ["nikolaiv"],
         room: [5],
         datetime: "2017-04-04",
@@ -176,7 +185,7 @@ var lectures = [
     {
         id:9,
         name: "Прототипирование как процесс",
-        schools: ["design"],
+        schools: [2],
         lecturers: ["sergeyt"],
         room: [3],
         datetime: "2017-05-07",
@@ -189,7 +198,7 @@ var lectures = [
         id:10,
         name: "Background",
         lecturers: ["alexm"],
-        schools: ["mobile"],
+        schools: [1],
         room: [0],
         datetime: "2017-05-09",
         start: "20:00",
@@ -200,7 +209,7 @@ var lectures = [
     {
         id:11,
         name: "RecyclerView",
-        schools: ["mobile"],
+        schools: [1],
         lecturers: ["vladimirt"],
         room: [3],
         datetime: "2017-05-09",
@@ -212,7 +221,7 @@ var lectures = [
     {
         id:12,
         name: "Design Everything",
-        schools: ["design"],
+        schools: [2],
         lecturers: ["andryg"],
         room: [1],
         datetime: "2017-05-10",
@@ -224,7 +233,7 @@ var lectures = [
     {
         id:13,
         name: "Адаптивная вёрстка",
-        schools: ["interface"],
+        schools: [0],
         lecturers: ["dmitriyd"],
         room: [1],
         datetime: "2017-05-10",
@@ -236,7 +245,7 @@ var lectures = [
     {
         id:14,
         name: "Нативные приложения на веб-технологиях",
-        schools: ["interface"],
+        schools: [0],
         lecturers: ["sergeyb"],
         room: [2],
         datetime: "2017-05-11",
@@ -248,7 +257,7 @@ var lectures = [
     {
         id:15,
         name: "Git & Workflow",
-        schools: ["mobile"],
+        schools: [1],
         lecturers: ["dmitriys"],
         room: [0],
         datetime: "2017-05-12",
@@ -260,7 +269,7 @@ var lectures = [
     {
         id:16,
         name: "Работа с сенсорным пользовательским вводом",
-        schools: ["interface"],
+        schools: [0],
         lecturers: ["dmitriyd"],
         room: [2],
         datetime: "2017-05-13",
@@ -272,7 +281,7 @@ var lectures = [
     {
         id:17,
         name: "Анимации",
-        schools: ["design"],
+        schools: [2],
         lecturers: ["sergeyt"],
         room: [5],
         datetime: "2017-05-14",
@@ -284,7 +293,7 @@ var lectures = [
     {
         id:18,
         name: "Работа в команде",
-        schools: ["interface", "design"],
+        schools: [0, 2],
         lecturers: ["yurip"],
         room: [4],
         datetime: "2017-05-15",
@@ -296,7 +305,7 @@ var lectures = [
     {
         id:19,
         name: "Развитие продукта",
-        schools: ["design"],
+        schools: [2],
         lecturers: ["andryg"],
         room: [2],
         datetime: "2017-05-22",
@@ -308,7 +317,7 @@ var lectures = [
     {
         id:20,
         name: "Исследование интерфейсов",
-        schools: ["interface", "design"],
+        schools: [0, 2],
         lecturers: ["alexk"],
         room: [0],
         datetime: "2017-05-29",
@@ -320,7 +329,7 @@ var lectures = [
     {
         id:21,
         name: "Инфраструктура веб-проектов",
-        schools: ["interface"],
+        schools: [0],
         lecturers: ["andryp"],
         room: [4],
         datetime: "2017-06-01",
@@ -333,7 +342,7 @@ var lectures = [
         id:22,
         name: "Инструменты разработки мобильного фронтенда",
         lecturers: ["andryp"],
-        schools: ["interface"],
+        schools: [0],
         room: [3],
         datetime: "2017-06-03",
         start: "21:00",
@@ -345,7 +354,7 @@ var lectures = [
         id:23,
         name: "Мультимедиа: возможности браузера",
         lecturers: ["maximv"],
-        schools: ["interface"],
+        schools: [0],
         room: [6],
         datetime: "2017-06-06",
         start: "20:00",
@@ -495,5 +504,6 @@ var lecturers = {
     window.rooms = checkStorage('rooms', rooms);
     window.lectures = checkStorage('lectures', lectures);
     window.lecturers = checkStorage('lecturers', lecturers);
+    window.i18n = i18n;
 
 })();
