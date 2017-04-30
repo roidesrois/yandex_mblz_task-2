@@ -648,7 +648,7 @@ function getFormValues(form, lecture) {
     for (var i = 0; i < form.querySelectorAll('.lecture-add__schools option').length; i++) {
         var option = form.querySelectorAll('.lecture-add__schools option')[i];
         if (option.selected) {
-            lecture.schools.push(String (option.value));
+            lecture.schools.push(Number (option.value));
         }
     }
     return lecture;
@@ -796,12 +796,10 @@ function showSchoolsPopup() {
             countOfStudents.removeAttribute('disabled');
             countOfStudents.setAttribute('max', maxCapacity);
             break;
-          case 'delete':
-                schoolSelect.removeAttribute('disabled');
-            break;
-
         }
     });
+
+    var selectSchoolData;
 
     schoolSelect.addEventListener("change", function(event) {
         event.preventDefault();
@@ -825,18 +823,20 @@ function showSchoolsPopup() {
         event.preventDefault();
         var name = schoolNamefield.value,
             students = countOfStudents.value;
-        var school = {
-                id: schools.length,
-                name: name,
-                students: students
-            };
 
-        window.schools.push(school);
+        var school = selectSchoolData ? selectSchoolData : {};
+            school.id = selectSchoolData ? Number(selectSchoolData.id) : Number(schools.length);
+            school.name = name;
+            school.students = students;
+
+        if (!selectSchoolData) {
+            window.schools.push(school);
+        } 
+
         modal.style.display = 'none';
         writeInStorage('schools', schools);
 
     });
-
 
 }
 
@@ -878,7 +878,8 @@ function showRoomsPopup() {
     var roomSelect = modal.querySelector("#roomFormSelect");
     var capacityOfRoom = modal.querySelector("#capacityOfRoom"); 
     var descriptionOfRoom = modal.querySelector("#descriptionOfRoom");
-    var roomFormSelect = modal.querySelector("#roomFormSelect");
+    var roomFormSelect = modal.querySelector("#roomFormSelect")
+    var roomEditId;
 
 
     //Добавляем в выпадающий список schoolFormSchoolSelect все школы.
@@ -899,6 +900,7 @@ function showRoomsPopup() {
 
     roomSelect.appendChild(fragment);
 
+    var selectRoomData;
 
     roomSelect.addEventListener("change", function(event) {
         event.preventDefault();
@@ -907,6 +909,7 @@ function showRoomsPopup() {
             return item.id == event.target.value;
         })[0];
 
+        roomEditId = event.target.value;
         roomNamefield.value = selectRoomData.name;
         capacityOfRoom.value = selectRoomData.capacity;
         descriptionOfRoom.value = selectRoomData.description;
@@ -927,17 +930,15 @@ function showRoomsPopup() {
             descriptionOfRoom.removeAttribute('disabled');
             roomNamefield.value = '';
             capacityOfRoom.value = '';
+            descriptionOfRoom.value = '';
             break;
           case 'change':
+            roomNamefield.removeAttribute('disabled');
             roomSelect.removeAttribute('disabled');
             capacityOfRoom.removeAttribute('disabled');
             descriptionOfRoom.removeAttribute('disabled');
             roomFormSelect.removeAttribute('disabled');
             break;
-          case 'delete':
-                roomSelect.removeAttribute('disabled');
-            break;
-
         }
     });
 
@@ -948,26 +949,29 @@ function showRoomsPopup() {
         modal.style.display = 'none';
     });
 
-    // слушаем событие на отправку формы добавления школы
+    // слушаем событие на отправку формы добавления аудитории
     formAdd.addEventListener('submit', function(event) {
         event.preventDefault();
-        console.log(description);
         var name = roomNamefield.value,
             capacity = capacityOfRoom.value,
             description = descriptionOfRoom.value;
-        var room = {
-            id: rooms.length,
-            name: name,
-            description: description,
-            capacity: capacity
-        };
 
+        var room = selectRoomData ? selectRoomData : {};
+            room.id = selectRoomData ? Number(selectRoomData.id) : Number(rooms.length);
+            room.name = name;
+            room.description = description;
+            room.capacity = capacity;
 
-        window.rooms.push(room);
+        if (!selectRoomData) {
+            window.rooms.push(room);
+        } 
+
         modal.style.display = 'none';
         writeInStorage('rooms', rooms);
     });
 }
+
+
 
 /**
  * Функция создаёт элемент на основе шаблона popup и переданных данных.

@@ -480,30 +480,29 @@ var lecturers = {
 };
 
 
-    /**
-     * checkStorage - проверяем localStorage по заданным параметрам, если данные есть - возвращаем их, в другом случае - записываем их
-     * @param name - название ключа
-     * @param value - значение ключа
-     * **/
-    function checkStorage(name, value) {
-      try {
-          if(localStorage.getItem(name)) {
-              return JSON.parse(localStorage.getItem(name));
-          } else {
-              localStorage.setItem(name, JSON.stringify(value));
-              return value;
-          }
-      } catch(error) {
-          console.error('Could not write to localStorage', error);
+/**
+ * checkStorage - проверяем localStorage по заданным параметрам, если данные есть - возвращаем их, в другом случае - записываем их
+ * @param name - название ключа
+ * @param value - значение ключа
+ * **/
+function checkStorage(name, value) {
+  try {
+      if(localStorage.getItem(name)) {
+          return JSON.parse(localStorage.getItem(name));
+      } else {
+          localStorage.setItem(name, JSON.stringify(value));
           return value;
       }
-    }
+  } catch(error) {
+      console.error('Could not write to localStorage', error);
+      return value;
+  }
+}
 
-
-    window.schools = checkStorage('schools', schools);
-    window.rooms = checkStorage('rooms', rooms);
-    window.lectures = checkStorage('lectures', lectures);
-    window.lecturers = checkStorage('lecturers', lecturers);
-    window.i18n = i18n;
+window.schools = checkStorage('schools', schools);
+window.rooms = checkStorage('rooms', rooms);
+window.lectures = checkStorage('lectures', lectures);
+window.lecturers = checkStorage('lecturers', lecturers);
+window.i18n = i18n;
 
 })();

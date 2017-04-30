@@ -256,8 +256,6 @@
     margin: auto;
     max-width: 800px;
     width: 90%;
-    height: 80vh;
-    max-height: 500px;
 }
 
 .modal__content {
@@ -431,7 +429,7 @@
 .modal-list {
     border-radius: 3px;
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.16), 0px 2px 5px 0px rgba(0, 0, 0, 0.23);
-    max-width: 490px;
+    max-width: 520px;
     overflow-y: auto;
     display: inline-block;
     white-space: normal;
@@ -441,6 +439,10 @@
 }
 .modal-list .column {
     margin-bottom: 15px;
+}
+
+.modal-list textarea {
+    resize: none;
 }
 
 .lecture-popup, .schools-popup, .rooms-popup {

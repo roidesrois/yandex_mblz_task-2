@@ -129,6 +129,20 @@
     &__icon_hidden {
         display: none;
     }
+
+    &__icon_edit  {
+        position: absolute;
+        display: block;
+        cursor: pointer;
+        bottom: 3px;
+        right: 7px;
+        width: 28px;
+        height: 28px;
+        background: url(../images/icons/edit.svg);
+        background-size: contain;
+        opacity: .7;
+    }
+
     @media (max-width: 760px) {
 
         & {
